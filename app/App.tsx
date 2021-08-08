@@ -1,21 +1,108 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {AuthContext, SignInParam, SignUpParam} from "./contexts/AuthenticationContext";
+import {NavigationContainer} from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import LoadingScreen from "./screens/loading/Loading";
+import SignInScreen from "./screens/auth/SignInScreen";
+import HomeScreen from "./screens/home/HomeScreen";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const Stack = createStackNavigator()
+
+const App = ({navigation}) => {
+    const [state, dispatch] = React.useReducer(
+        (prevState, action) => {
+            switch (action.type) {
+                case 'RESTORE_TOKEN':
+                    return {
+                        ...prevState,
+                        userToken: action.token,
+                        isLoading: false
+                    };
+                case 'SIGN_IN':
+                    return {
+                        ...prevState,
+                        isSignOut: false,
+                        userToken: action.token
+                    };
+                case 'SIGN_OUT':
+                    return {
+                        ...prevState,
+                        isSignOut: true,
+                        userToken: null
+                    }
+            }
+        },
+        {
+            isLoading: true,
+            isSignOut: false,
+            userToken: null
+        }
+    );
+
+    React.useEffect(() => {
+            const bootstrapAsync = async () => {
+                console.log('Going to restore token from storage.')
+                try {
+                    const userToken = 'fake-user-token'
+                    dispatch({
+                        type: 'RESTORE_TOKEN',
+                        token: userToken
+                    })
+                } catch (e) {
+
+                }
+            }
+            setTimeout(()=>bootstrapAsync(), 3000)
+        }, []
+    )
+
+    const authContext = React.useMemo(() => ({
+            signIn: async (param: SignInParam) => {
+                dispatch({
+                    type: 'SIGN_IN',
+                    token: 'dummy-auth-token'
+                })
+            },
+            signOut: () => {
+                dispatch({
+                    type: 'SIGN_OUT'
+                })
+            },
+            signUp: async (param: SignUpParam) => {
+                dispatch({
+                    type: 'SIGN_UP',
+                    token: 'dummy-auth-token'
+                })
+            }
+        }),
+        []
+    )
+
+    return (
+        <AuthContext.Provider value={authContext}>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    {state.isLoading ? (
+                        <Stack.Screen name={"Loading"} component={LoadingScreen}/>
+                    ) : state.userToken == null ? (
+                        <Stack.Screen
+                            name={"SignIn"}
+                            component={SignInScreen}
+                            options={{
+                                title: 'Sign in',
+                                animationTypeForReplace: state.isSignOut ? 'pop' : 'push'
+                            }}
+                        />
+                    ) : (
+                        <Stack.Screen
+                            name={"Home"}
+                            component={HomeScreen}
+                        />
+                    )}
+                </Stack.Navigator>
+            </NavigationContainer>
+        </AuthContext.Provider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
