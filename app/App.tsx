@@ -5,8 +5,27 @@ import {createStackNavigator} from "@react-navigation/stack";
 import LoadingScreen from "./screens/loading/Loading";
 import SignInScreen from "./screens/auth/SignInScreen";
 import HomeScreen from "./screens/home/HomeScreen";
+import api from "./api/api";
+import {SIGN_UP_ENDPOINT} from "./api/auth/SignUp";
 
 const Stack = createStackNavigator()
+
+type InitialState = {
+    /**
+     * auth info is not loaded yet
+     */
+    isLoading: boolean,
+
+    /**
+     * token does not exist
+     */
+    isSignOut: boolean,
+
+    /**
+     * token
+     */
+    userToken?: string
+}
 
 const App = ({navigation}) => {
     const [state, dispatch] = React.useReducer(
@@ -41,18 +60,25 @@ const App = ({navigation}) => {
 
     React.useEffect(() => {
             const bootstrapAsync = async () => {
-                console.log('Going to restore token from storage.')
                 try {
+                    await api.post(SIGN_UP_ENDPOINT)
+                        .then(result => {
+                            console.log(result)
+                        })
+                        .catch(reason => {
+                            console.log(reason)
+                        })
                     const userToken = 'fake-user-token'
                     dispatch({
                         type: 'RESTORE_TOKEN',
                         token: userToken
                     })
                 } catch (e) {
-
+                    console.error(e)
                 }
             }
-            setTimeout(()=>bootstrapAsync(), 3000)
+            bootstrapAsync()
+            // setTimeout(() => bootstrapAsync(), 3000)
         }, []
     )
 
