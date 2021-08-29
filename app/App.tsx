@@ -5,12 +5,10 @@ import {createStackNavigator} from "@react-navigation/stack";
 import LoadingScreen from "./screens/loading/Loading";
 import SignInScreen from "./screens/auth/SignInScreen";
 import HomeScreen from "./screens/home/HomeScreen";
-import api from "./api/api";
-import {SIGN_UP_ENDPOINT} from "./api/auth/SignUp";
 
 const Stack = createStackNavigator()
 
-type InitialState = {
+type AuthState = {
     /**
      * auth info is not loaded yet
      */
@@ -27,9 +25,14 @@ type InitialState = {
     userToken?: string
 }
 
+type AuthAction = {
+    type: string,
+    token: string
+}
+
 const App = ({navigation}) => {
     const [state, dispatch] = React.useReducer(
-        (prevState, action) => {
+        (prevState: any, action: any) => {
             switch (action.type) {
                 case 'RESTORE_TOKEN':
                     return {
@@ -61,13 +64,6 @@ const App = ({navigation}) => {
     React.useEffect(() => {
             const bootstrapAsync = async () => {
                 try {
-                    await api.post(SIGN_UP_ENDPOINT)
-                        .then(result => {
-                            console.log(result)
-                        })
-                        .catch(reason => {
-                            console.log(reason)
-                        })
                     const userToken = 'fake-user-token'
                     dispatch({
                         type: 'RESTORE_TOKEN',
@@ -78,7 +74,6 @@ const App = ({navigation}) => {
                 }
             }
             bootstrapAsync()
-            // setTimeout(() => bootstrapAsync(), 3000)
         }, []
     )
 
@@ -107,7 +102,11 @@ const App = ({navigation}) => {
     return (
         <AuthContext.Provider value={authContext}>
             <NavigationContainer>
-                <Stack.Navigator>
+                <Stack.Navigator
+                    screenOptions={{
+                        headerShown: false
+                    }}
+                >
                     {state.isLoading ? (
                         <Stack.Screen name={"Loading"} component={LoadingScreen}/>
                     ) : state.userToken == null ? (

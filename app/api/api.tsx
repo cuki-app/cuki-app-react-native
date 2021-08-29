@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
-class ApiResponse<T> {
-    readonly statusCode: number
-    readonly result?: T
-    readonly timestamp: Date
+export class ApiResponse<T> {
+    statusCode: number
+    result?: T
+    timestamp: Date
 
     constructor(statusCode: number, result: T, timestamp: Date) {
         this.statusCode = statusCode;
@@ -20,9 +20,9 @@ class Api {
         return axios.get(url)
     }
 
-    async post<T>(path: string): Promise<ApiResponse<T>> {
+    async post<T>(path: string): Promise<AxiosResponse> {
         const url = Api.buildUrl(path)
-        return axios.post(url)
+        return axios.post<ApiResponse<T>>(url)
     }
 
     private static buildUrl(uri: string) {
