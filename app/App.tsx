@@ -3,32 +3,11 @@ import {AuthContext, SignInParam, SignUpParam} from "./contexts/AuthenticationCo
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoadingScreen from "./screens/loading/Loading";
-import SignInScreen from "./screens/auth/SignInScreen";
+import SignInEmailScreen from "./screens/auth/SignInEmailScreen";
 import HomeTab from "./screens/home/HomeNavigator";
+import AuthStack from "./screens/auth/AuthNavigator";
 
 const Stack = createStackNavigator()
-
-type AuthState = {
-    /**
-     * auth info is not loaded yet
-     */
-    isLoading: boolean,
-
-    /**
-     * token does not exist
-     */
-    isSignOut: boolean,
-
-    /**
-     * token
-     */
-    userToken?: string
-}
-
-type AuthAction = {
-    type: string,
-    token: string
-}
 
 const App = ({navigation}) => {
     const [state, dispatch] = React.useReducer(
@@ -66,7 +45,6 @@ const App = ({navigation}) => {
             const bootstrapAsync = async () => {
                 try {
                     const userToken = 'fake-user-token'
-                    console.warn('TODO: token fetcher not implemented yet.')
                     dispatch({
                         type: 'RESTORE_TOKEN',
                         token: userToken
@@ -114,7 +92,7 @@ const App = ({navigation}) => {
                     ) : state.userToken == null ? (
                         <Stack.Screen
                             name={"SignIn"}
-                            component={SignInScreen}
+                            component={AuthStack}
                             options={{
                                 title: 'Sign in',
                                 animationTypeForReplace: state.isSignOut ? 'pop' : 'push'

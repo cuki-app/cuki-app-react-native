@@ -6,7 +6,7 @@ import CukiInput from "../../components/CukiInput";
 import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
 
-const SignInScreen = () => {
+const SignUpEmailScreen = () => {
     const [email, setEmail] = React.useState('')
     const {signIn} = React.useContext(AuthContext)
     return (
@@ -25,6 +25,7 @@ const SignInScreen = () => {
                     }}
                 >이메일</CukiHeader>
                 <CukiInput
+                    keyboardType={'email-address'}
                     placeholder={"이메일을 입력해주세요."}
                     value={email}
                     onChangeText={setEmail}
@@ -44,8 +45,9 @@ const SignInScreen = () => {
                     }}
                 />
             </CukiBox>
+            <CukiParagraph> </CukiParagraph>
         </CukiContainer>
     )
 }
 
-export default SignInScreen
+export default SignUpEmailScreen

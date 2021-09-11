@@ -1,5 +1,6 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
+import {Keyboard, TouchableWithoutFeedback} from "react-native";
 
 const CukiContainer = styled.SafeAreaView`
   flex: 1;
@@ -20,9 +21,11 @@ type DefaultBoxProps = {
 
 export const CukiBox = (props?: PropsWithChildren<DefaultBoxProps>) => {
     return (
-        <DefaultBox style={{...props?.style}}>
-            {props?.children}
-        </DefaultBox>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <DefaultBox style={{...props?.style}}>
+                {props?.children}
+            </DefaultBox>
+        </TouchableWithoutFeedback>
     )
 }
 

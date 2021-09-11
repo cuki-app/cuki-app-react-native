@@ -1,20 +1,19 @@
 import React from "react";
 import CukiContainer, {CukiBox} from "../../components/CukiContainer";
-import {AuthContext} from "../../contexts/AuthenticationContext";
 import CukiButton from "../../components/CukiButton";
 import CukiInput from "../../components/CukiInput";
 import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
+import {defaultFontColor} from "../../components/ColorCode";
 
-const SignInScreen = () => {
+const SignInEmailScreen = ({navigation}) => {
     const [email, setEmail] = React.useState('')
-    const {signIn} = React.useContext(AuthContext)
     return (
         <CukiContainer>
             <CukiBox>
-                <CukiHeader>회원가입</CukiHeader>
-                <CukiParagraph>쿠키는 단 한 번의 회원가입으로</CukiParagraph>
-                <CukiParagraph>로그인 없이 편하게 이용할 수 있어요!</CukiParagraph>
+                <CukiHeader>들어가기</CukiHeader>
+                <CukiParagraph>로그인은 계속해서 유지돼요</CukiParagraph>
+                <CukiParagraph>단, 30일간 활동이 없다면 로그아웃됩니다.</CukiParagraph>
             </CukiBox>
             <CukiBox>
                 <CukiHeader
@@ -25,6 +24,7 @@ const SignInScreen = () => {
                     }}
                 >이메일</CukiHeader>
                 <CukiInput
+                    keyboardType={"email-address"}
                     placeholder={"이메일을 입력해주세요."}
                     value={email}
                     onChangeText={setEmail}
@@ -37,15 +37,26 @@ const SignInScreen = () => {
                     titleColor={'white'}
                     onPress={() => {
                         console.log(email)
+                        navigation.navigate('type-code', {email: email})
                         // signIn(param)
                     }}
                     style={{
                         marginTop: 20,
                     }}
                 />
+                <CukiParagraph
+                    onPress={() => {
+                        navigation.navigate('sign-up-email')
+                    }}
+                    style={{
+                        marginTop: 20,
+                        fontSize: 16,
+                        color: `${defaultFontColor}`
+                    }}
+                >처음 왔어요! 회원가입</CukiParagraph>
             </CukiBox>
         </CukiContainer>
     )
 }
 
-export default SignInScreen
+export default SignInEmailScreen

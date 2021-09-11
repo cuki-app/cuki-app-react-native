@@ -1,18 +1,22 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
+import {TouchableOpacity} from "react-native";
 
 const DefaultParagraph = styled.Text`
-    font-size: 18px;
+  font-size: 18px;
 `
 
 type DefaultParagraphProps = {
-    style?: any
+    style?: any,
+    onPress?: () => void
 }
 
 const CukiParagraph = (props?: PropsWithChildren<DefaultParagraphProps>) => (
-    <DefaultParagraph style={props?.style}>
-        {props?.children || 'Title'}
-    </DefaultParagraph>
+    <TouchableOpacity onPress={props?.onPress}>
+        <DefaultParagraph style={props?.style}>
+            {props?.children || 'Title'}
+        </DefaultParagraph>
+    </TouchableOpacity>
 )
 
 export default CukiParagraph;

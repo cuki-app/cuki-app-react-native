@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
 import {defaultInputBG, defaultInputFC} from "./ColorCode";
-import {Image} from "react-native";
+import {KeyboardTypeOptions} from "react-native";
 
 const DefaultTextInput = styled.TextInput`
   width: 100%;
@@ -12,13 +12,8 @@ const DefaultTextInput = styled.TextInput`
   color: ${defaultInputFC};
 `
 
-const ClearButton = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  margin-right: 5px;
-`
-
 type DefaultInputProps = {
+    keyboardType?: KeyboardTypeOptions,
     style?: any,
     value?: string,
     placeholder?: string,
@@ -26,9 +21,10 @@ type DefaultInputProps = {
     onChangeText?: (param?: any) => any
 }
 
-const defaultInput = (props?: React.PropsWithChildren<DefaultInputProps>) => {
+const CukiInput = (props?: PropsWithChildren<DefaultInputProps>) => {
     return (
         <DefaultTextInput
+            keyboardType={props?.keyboardType || 'default'}
             style={props?.style}
             placeholder={props?.placeholder}
             value={props?.value}
@@ -37,29 +33,8 @@ const defaultInput = (props?: React.PropsWithChildren<DefaultInputProps>) => {
                     props?.onChangeText(text)
                 }
             }}
-        >
-            {props?.isClearable ?
-                (
-                    <ClearButton
-                        onPress={() => {
-                            if (props?.onChangeText) {
-                                props?.onChangeText('')
-                            }
-                        }}
-                    >
-                        <Image
-                            source={require('../assets/images/input-cancel.png')}
-                            style={{height: 16, width: 16}}
-                        />
-                    </ClearButton>
-                ) : null
-            }
-        </DefaultTextInput>
+        />
     )
-}
-
-const CukiInput = (props?: PropsWithChildren<DefaultInputProps>) => {
-    return defaultInput(props)
 }
 
 export default CukiInput
