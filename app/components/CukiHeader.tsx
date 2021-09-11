@@ -1,26 +1,28 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
-import {defaultFontColor} from "./ColorCode";
-
-const HeaderContainer = styled.View`
-`
+import {defaultFontColor, mainColor} from "./ColorCode";
 
 const DefaultHeader = styled.Text`
-  color: ${defaultFontColor};
-  font-size: 24px;
-  font-weight: 500;
+  color: ${mainColor};
+  font-size: 36px;
+  font-weight: 700;
+  padding: 20px 0;
 `
 
 type DefaultHeaderProps = {
-    style?: any
+    style?: any,
+    fontSize?: number,
+    fontColor?: string,
 }
 
 const CukiHeader = (props?: PropsWithChildren<DefaultHeaderProps>) => (
-    <HeaderContainer>
-        <DefaultHeader style={props?.style}>
-            {props?.children || 'Title'}
-        </DefaultHeader>
-    </HeaderContainer>
+    <DefaultHeader style={{
+        ...props?.style,
+        fontSize: props?.fontSize || 36,
+        color: props?.fontColor || `${mainColor}`,
+    }}>
+        {props?.children || 'Title'}
+    </DefaultHeader>
 )
 
 export default CukiHeader

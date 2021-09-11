@@ -50,6 +50,7 @@ const App = ({navigation}) => {
                     return {
                         ...prevState,
                         isSignOut: true,
+                        isLoading: false,
                         userToken: null
                     }
             }
@@ -65,6 +66,7 @@ const App = ({navigation}) => {
             const bootstrapAsync = async () => {
                 try {
                     const userToken = 'fake-user-token'
+                    console.warn('TODO: token fetcher not implemented yet.')
                     dispatch({
                         type: 'RESTORE_TOKEN',
                         token: userToken

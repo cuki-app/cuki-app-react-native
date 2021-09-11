@@ -6,13 +6,11 @@ const CukiContainer = styled.SafeAreaView`
   width: 100%;
   background-color: white;
   flex-direction: column;
+  justify-content: center;
 `
 
 const DefaultBox = styled.View`
-  flex: 1;
-  width: 100%;
   padding: 5% 10%;
-  align-items: center;
   justify-content: center;
 `
 
@@ -21,9 +19,8 @@ type DefaultBoxProps = {
 }
 
 export const CukiBox = (props?: PropsWithChildren<DefaultBoxProps>) => {
-    console.log(props)
     return (
-        <DefaultBox style={props?.style}>
+        <DefaultBox style={{...props?.style}}>
             {props?.children}
         </DefaultBox>
     )

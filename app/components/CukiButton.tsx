@@ -1,18 +1,17 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
 import {defaultBorder, defaultFontColor, primaryColor} from "./ColorCode";
-/*import {Animated} from "react-native";
-import GradientHelper from "./GradientHelper";
-
-const AnimatedGradientHelper = Animated.createAnimatedComponent(GradientHelper)*/
 
 const DefaultPressable = styled.Pressable`
   display: flex;
-  border-radius: 16px;
   border: 1px;
-  border-color: ${defaultBorder};
-  width: 220px;
-  height: 44px;
+  border-radius: 16px;
+  border-color: #D2CED6;
+  background-color: #D2CED6;
+  color: white;
+  font-size: 24px;
+  width: 271px;
+  height: 55px;
   justify-content: center;
   align-items: center;
 `;
@@ -23,8 +22,8 @@ const PrimaryPressable = styled.Pressable`
   border: 1px;
   background-color: ${primaryColor};
   border-color: ${primaryColor};
-  width: 220px;
-  height: 44px;
+  width: 271px;
+  height: 55px;
   justify-content: center;
   align-items: center;
 `
@@ -42,13 +41,14 @@ const WeakPressable = styled.Pressable`
 `
 
 const DefaultButtonTitle = styled.Text`
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 22px;
+  font-weight: 300;
   color: ${defaultFontColor};
 `;
 
 type DefaultButtonProps = {
     title?: string,
+    titleColor?: string,
     type?: string
     style?: any,
     onPress?: () => void
@@ -61,7 +61,9 @@ const defaultButton = (props?: PropsWithChildren<DefaultButtonProps>) => (
         onPress={props?.onPress}
         onLongPress={props?.onLongPress}
     >
-        <DefaultButtonTitle>{props?.children || props?.title || 'Button'}</DefaultButtonTitle>
+        <DefaultButtonTitle style={{
+            color: props?.titleColor || `${defaultFontColor}`
+        }}>{props?.children || props?.title || 'Button'}</DefaultButtonTitle>
     </DefaultPressable>
 )
 

@@ -4,3 +4,8 @@ export type SignUpToken = {
     accessToken: string
     refreshToken: string
 }
+
+
+class UserService {
+
+}

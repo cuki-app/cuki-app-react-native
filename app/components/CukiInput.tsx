@@ -4,8 +4,8 @@ import {defaultInputBG, defaultInputFC} from "./ColorCode";
 import {Image} from "react-native";
 
 const DefaultTextInput = styled.TextInput`
+  width: 100%;
   border-radius: 16px;
-  width: 220px;
   height: 44px;
   padding: 4px 10px;
   background-color: ${defaultInputBG};
