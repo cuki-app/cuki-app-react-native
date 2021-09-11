@@ -1,18 +1,19 @@
 import React from "react";
 import CukiContainer, {CukiBox} from "../../components/CukiContainer";
-import CukiButton from "../../components/CukiButton";
-import CukiInput from "../../components/CukiInput";
 import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
+import CukiInput from "../../components/CukiInput";
+import CukiButton from "../../components/CukiButton";
+import {SignUpParam} from "../../contexts/AuthenticationContext";
 
-const SignUpEmailScreen = ({navigation}) => {
-    const [email, setEmail] = React.useState('')
+const SignUpAuthCodeScreen = ({route}) => {
+    const [authCode, setAuthCode] = React.useState('')
     return (
         <CukiContainer>
             <CukiBox>
                 <CukiHeader>회원가입</CukiHeader>
-                <CukiParagraph>쿠키는 단 한 번의 회원가입으로</CukiParagraph>
-                <CukiParagraph>로그인 없이 편하게 이용할 수 있어요!</CukiParagraph>
+                <CukiParagraph>이메일로 인증코드가 전송되었어요.</CukiParagraph>
+                <CukiParagraph>확인 후 입력하면 끝이에요. 🎉</CukiParagraph>
             </CukiBox>
             <CukiBox>
                 <CukiHeader
@@ -21,21 +22,24 @@ const SignUpEmailScreen = ({navigation}) => {
                     style={{
                         paddingBottom: 10
                     }}
-                >이메일</CukiHeader>
+                >인증코드</CukiHeader>
                 <CukiInput
-                    keyboardType={'email-address'}
-                    placeholder={"이메일을 입력해주세요."}
-                    value={email}
-                    onChangeText={setEmail}
+                    placeholder={"인증코드를 입력해주세요."}
+                    value={authCode}
+                    onChangeText={setAuthCode}
                 />
             </CukiBox>
             <CukiBox style={{alignItems: 'center'}}>
                 <CukiButton
-                    type={email !== '' ? 'PRIMARY' : ''}
+                    type={authCode !== '' ? 'PRIMARY' : ''}
                     title={'다음'}
                     titleColor={'white'}
                     onPress={() => {
-                        navigation.navigate('sign-up-code', {email: email})
+                        const param: SignUpParam = {
+                            email: route.params.email,
+                            magicCode: authCode
+                        }
+                        console.log(param)
                     }}
                     style={{
                         marginTop: 20,
@@ -46,4 +50,4 @@ const SignUpEmailScreen = ({navigation}) => {
     )
 }
 
-export default SignUpEmailScreen
+export default SignUpAuthCodeScreen

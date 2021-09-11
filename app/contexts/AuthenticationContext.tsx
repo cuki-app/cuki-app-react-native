@@ -7,6 +7,7 @@ export type SignInParam = {
 
 export type SignUpParam = {
     email: string
+    magicCode: string
 }
 
 export const AuthContext = React.createContext({

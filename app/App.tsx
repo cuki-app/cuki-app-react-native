@@ -3,7 +3,6 @@ import {AuthContext, SignInParam, SignUpParam} from "./contexts/AuthenticationCo
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoadingScreen from "./screens/loading/Loading";
-import SignInEmailScreen from "./screens/auth/SignInEmailScreen";
 import HomeTab from "./screens/home/HomeNavigator";
 import AuthStack from "./screens/auth/AuthNavigator";
 
@@ -41,21 +40,20 @@ const App = ({navigation}) => {
         }
     );
 
-    React.useEffect(() => {
-            const bootstrapAsync = async () => {
-                try {
-                    const userToken = 'fake-user-token'
-                    dispatch({
-                        type: 'RESTORE_TOKEN',
-                        token: userToken
-                    })
-                } catch (e) {
-                    console.error(e)
-                }
+    /*React.useEffect(() => {
+        const bootstrapAsync = async () => {
+            try {
+                const userToken = 'fake-user-token'
+                dispatch({
+                    type: 'RESTORE_TOKEN',
+                    token: userToken
+                })
+            } catch (e) {
+                console.error(e)
             }
-            bootstrapAsync()
-        }, []
-    )
+        }
+        bootstrapAsync()
+    }, [])*/
 
     const authContext = React.useMemo(() => ({
             signIn: async (param: SignInParam) => {
@@ -94,7 +92,7 @@ const App = ({navigation}) => {
                             name={"SignIn"}
                             component={AuthStack}
                             options={{
-                                title: 'Sign in',
+                                title: 'auth',
                                 animationTypeForReplace: state.isSignOut ? 'pop' : 'push'
                             }}
                         />
