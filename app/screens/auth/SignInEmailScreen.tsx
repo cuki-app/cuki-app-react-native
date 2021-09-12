@@ -36,9 +36,7 @@ const SignInEmailScreen = ({navigation}) => {
                     title={'다음'}
                     titleColor={'white'}
                     onPress={() => {
-                        console.log(email)
                         navigation.navigate('type-code', {email: email})
-                        // signIn(param)
                     }}
                     style={{
                         marginTop: 20,

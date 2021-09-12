@@ -41,8 +41,8 @@ const SignInAuthCodeScreen = ({route}) => {
                             email: route.params.email,
                             magicCode: authCode
                         }
-                        console.log(param)
-                        // signIn(param)
+                        console.debug(param)
+                        signIn(param)
                     }}
                     style={{
                         marginTop: 20,

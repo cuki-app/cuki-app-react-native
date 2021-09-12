@@ -11,6 +11,7 @@ export type SignUpParam = {
 }
 
 export const AuthContext = React.createContext({
+    restore: async (token: string | null) => {},
     signIn: async (param: SignInParam) => {},
     signOut: () => {},
     signUp: async (param: SignUpParam) => {}

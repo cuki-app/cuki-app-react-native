@@ -40,26 +40,17 @@ const App = ({navigation}) => {
         }
     );
 
-    /*React.useEffect(() => {
-        const bootstrapAsync = async () => {
-            try {
-                const userToken = 'fake-user-token'
+    const authContext = React.useMemo(() => ({
+            restore: async (token: string | null) => {
                 dispatch({
                     type: 'RESTORE_TOKEN',
-                    token: userToken
+                    token: token
                 })
-            } catch (e) {
-                console.error(e)
-            }
-        }
-        bootstrapAsync()
-    }, [])*/
-
-    const authContext = React.useMemo(() => ({
+            },
             signIn: async (param: SignInParam) => {
                 dispatch({
                     type: 'SIGN_IN',
-                    token: 'dummy-auth-token'
+                    token: param.magicCode
                 })
             },
             signOut: () => {
