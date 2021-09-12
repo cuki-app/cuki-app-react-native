@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
-import {defaultFontColor, mainColor} from "./ColorCode";
+import {mainColor} from "./ColorCode";
 
 const DefaultHeader = styled.Text`
   color: ${mainColor};

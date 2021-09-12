@@ -11,7 +11,11 @@ const HomeTab = ({navigation}) => {
     return (
         <Tab.Navigator screenOptions={{
             tabBarActiveTintColor: "#422AD3",
-            tabBarInactiveTintColor: "#D2CED6"
+            tabBarInactiveTintColor: "#D2CED6",
+            headerStyle: {
+                backgroundColor: "#422AD3",
+            },
+            headerTintColor: "#FFFFFF"
         }}>
             <Tab.Screen
                 name={"캘린더"}
