@@ -35,7 +35,8 @@ const HomeTab = ({navigation}) => {
                 options={{
                     tabBarIcon: (props: { focused: boolean, color: string, size: number }) => {
                         return <MaterialCommunityIcons name={"tooltip-plus"} color={props.color} size={props.size}/>
-                    }
+                    },
+                    headerShown: false
                 }}
             />
             <Tab.Screen

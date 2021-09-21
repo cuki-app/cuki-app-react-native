@@ -1,10 +1,23 @@
 import React from "react";
 import styled from "styled-components/native";
-import {LayoutAnimation, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {LayoutAnimation, View} from "react-native";
 import CukiButton from "../../../components/CukiButton";
+import CukiList from "../../../components/CukiItemList";
+import CukiCard from "../../../components/CukiCard";
+import CukiHeader from "../../../components/CukiHeader";
 
-const DefaultListView = styled.FlatList`
+const ScheduleScreenContainer = styled.SafeAreaView`
+  flex: 1;
+  width: 100%;
+  background-color: #D2CED6;
+`
+
+const ScheduleListContainer = styled.SafeAreaView`
   background-color: white;
+`
+
+const ScheduleListWrapper = styled.SafeAreaView`
+  margin: 0 36px;
 `
 
 const arr: Array<string> = [];
@@ -12,61 +25,66 @@ for (let i = 0; i < 100; i++) {
     arr.push(i.toString());
 }
 
+const ScheduleListScreen = ({navigation}) => {
+    const [toggleCommandBox, setToggleCommandBox] = React.useState(true)
 
-const Item = ({num}) => {
+    // component did mount
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+            setToggleCommandBox(false)
+            clearTimeout(timer);
+        }, 600)
+    }, [])
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>{num}</Text>
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    container: {
-        borderBottomWidth: 1,
-        height: 100,
-    },
-    text: {
-        textAlign: 'center',
-        textAlignVertical: 'center',
-        fontSize: 50,
-    },
-});
-
-const ScheduleListScreen = () => {
-    const [toggleCommandBox, setToggleCommandBox] = React.useState(false)
-    return (
-        <SafeAreaView style={{backgroundColor: 'gray'}}>
+        <ScheduleScreenContainer
+            style={{
+                backgroundColor: toggleCommandBox ? '#D2CED6' : 'white'
+            }}
+        >
             {toggleCommandBox &&
             <View
                 style={{
                     padding: 20
                 }}
             >
-                <CukiButton type={'PRIMARY'}>일정 등록하기</CukiButton>
+                <CukiButton
+                    onPress={() => {
+                        navigation.navigate('schedule-registration-stack')
+                    }}
+                    type={'PRIMARY'}
+                    style={{width: '100%'}}
+                >일정 등록하기</CukiButton>
             </View>
             }
-            <DefaultListView
+            <ScheduleListContainer
                 style={{
                     borderTopLeftRadius: toggleCommandBox ? 16 : 0,
                     borderTopRightRadius: toggleCommandBox ? 16 : 0
                 }}
-                keyExtractor={item => item.toString()}
-                data={arr}
-                renderItem={({item}) => <Item num={item}/>}
-                onScroll={(e) => {
-                    console.log(e.nativeEvent.contentOffset.y)
-                    if (e.nativeEvent.contentOffset.y < -50) {
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-                        setToggleCommandBox(true)
-                    }
-                    if (e.nativeEvent.contentOffset.y > 50) {
-                        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-                        setToggleCommandBox(false)
-                    }
-                }}
-            />
-        </SafeAreaView>
+            >
+                <ScheduleListWrapper>
+                    <CukiHeader fontSize={30}>모든 일정</CukiHeader>
+                    <CukiList
+                        keyExtractor={item => item.toString()}
+                        data={arr}
+                        renderItem={({item}) => <CukiCard/>}
+                        onScroll={(e) => {
+                            console.log(e.nativeEvent.contentOffset.y)
+                            if (e.nativeEvent.contentOffset.y < -50) {
+                                LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+                                setToggleCommandBox(true)
+                            }
+                            if (e.nativeEvent.contentOffset.y > 0) {
+                                LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+                                setToggleCommandBox(false)
+                            }
+                        }}
+                    />
+                </ScheduleListWrapper>
+            </ScheduleListContainer>
+        </ScheduleScreenContainer>
     )
 }
 

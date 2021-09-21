@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
-import {defaultBorder, defaultFontColor, primaryColor} from "./ColorCode";
+import {defaultBorder, defaultFontColor, mainColor, primaryColor} from "./ColorCode";
 
 const DefaultPressable = styled.Pressable`
   display: flex;
@@ -20,8 +20,8 @@ const PrimaryPressable = styled.Pressable`
   display: flex;
   border-radius: 16px;
   border: 1px;
-  background-color: ${primaryColor};
-  border-color: ${primaryColor};
+  background-color: ${mainColor};
+  border-color: ${mainColor};
   width: 271px;
   height: 55px;
   justify-content: center;
