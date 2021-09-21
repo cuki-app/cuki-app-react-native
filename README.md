@@ -6,4 +6,5 @@
 
 ```shell
 $ expo install @react-native-async-storage/async-storage
+$ expo install @react-native-community/datetimepicker
 ```

@@ -1,14 +1,16 @@
 import React, {PropsWithChildren} from "react";
 import styled from "styled-components/native";
 import {defaultInputBG, defaultInputFC} from "./ColorCode";
-import {KeyboardTypeOptions} from "react-native";
+import {KeyboardTypeOptions, Pressable} from "react-native";
 
 type DefaultInputProps = {
     keyboardType?: KeyboardTypeOptions,
     style?: any,
     value?: string,
     placeholder?: string,
-    onChangeText?: (param?: any) => any
+    onChangeText?: (param?: any) => any,
+    onPress?: () => void,
+    onFocus?: () => void,
 }
 
 const DefaultTextInput = styled.TextInput`
@@ -22,17 +24,19 @@ const DefaultTextInput = styled.TextInput`
 
 const CukiInput = (props?: PropsWithChildren<DefaultInputProps>) => {
     return (
-        <DefaultTextInput
-            keyboardType={props?.keyboardType || 'default'}
-            style={props?.style}
-            placeholder={props?.placeholder}
-            value={props?.value}
-            onChangeText={(text: string) => {
-                if (props?.onChangeText) {
-                    props?.onChangeText(text)
-                }
-            }}
-        />
+        <Pressable onPress={props?.onPress}>
+            <DefaultTextInput
+                keyboardType={props?.keyboardType || 'default'}
+                style={props?.style}
+                placeholder={props?.placeholder}
+                value={props?.value}
+                onChangeText={(text: string) => {
+                    if (props?.onChangeText) {
+                        props?.onChangeText(text)
+                    }
+                }}
+            />
+        </Pressable>
     )
 }
 
@@ -44,18 +48,21 @@ const HiddenTextInput = styled.TextInput`
 
 export const CukiHiddenInput = (props?: PropsWithChildren<DefaultInputProps>) => {
     return (
-        <HiddenTextInput
-            multiline={true}
-            keyboardType={props?.keyboardType || 'default'}
-            style={props?.style}
-            placeholder={props?.placeholder}
-            value={props?.value}
-            onChangeText={(text: string) => {
-                if (props?.onChangeText) {
-                    props?.onChangeText(text)
-                }
-            }}
-        />
+        <Pressable onPress={props?.onPress}>
+            <HiddenTextInput
+                onFocus={props?.onFocus}
+                multiline={true}
+                keyboardType={props?.keyboardType || 'default'}
+                style={props?.style}
+                placeholder={props?.placeholder}
+                value={props?.value}
+                onChangeText={(text: string) => {
+                    if (props?.onChangeText) {
+                        props?.onChangeText(text)
+                    }
+                }}
+            />
+        </Pressable>
     )
 }
 

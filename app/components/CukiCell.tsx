@@ -8,11 +8,24 @@ const DefaultCell = styled.View`
   margin: 5px 10px;
 `
 
-type DefaultCellProps = {}
+const TransparentCell = styled.View`
+  margin: 5px 10px;
+  padding: 16px 30px;
+  align-items: center;
+`
+
+type DefaultCellProps = {
+    type?: string,
+    style?: any
+}
 
 const CukiCell = (props?: PropsWithChildren<DefaultCellProps>) => {
-    return (
-        <DefaultCell>
+    return props?.type === 'transparent' ? (
+        <TransparentCell style={{...props?.style}}>
+            {props?.children}
+        </TransparentCell>
+    ) : (
+        <DefaultCell style={{...props?.style}}>
             {props?.children}
         </DefaultCell>
     )
