@@ -13,14 +13,17 @@ type DefaultHeaderProps = {
     style?: any,
     fontSize?: number,
     fontColor?: string,
+    onPress?: () => void,
 }
 
 const CukiHeader = (props?: PropsWithChildren<DefaultHeaderProps>) => (
-    <DefaultHeader style={{
-        ...props?.style,
-        fontSize: props?.fontSize || 36,
-        color: props?.fontColor || `${mainColor}`,
-    }}>
+    <DefaultHeader
+        onPress={props?.onPress}
+        style={{
+            ...props?.style,
+            fontSize: props?.fontSize || 36,
+            color: props?.fontColor || `${mainColor}`,
+        }}>
         {props?.children || 'Title'}
     </DefaultHeader>
 )

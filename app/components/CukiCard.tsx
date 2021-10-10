@@ -12,16 +12,19 @@ const DefaultCardView = styled.SafeAreaView`
 `
 
 const DefaultCardWrapper = styled.SafeAreaView`
-    margin: 20px;
+  margin: 20px;
 `
 
-type CukiCardProps = {}
+type CukiCardProps = {
+    onPress?: () => void
+}
 
 const CukiCard = (props?: PropsWithChildren<CukiCardProps>) => {
     return (
         <DefaultCardView>
             <DefaultCardWrapper>
                 <CukiHeader
+                    onPress={props?.onPress}
                     fontSize={22}
                     fontColor={'black'}
                     style={{paddingTop: 0, paddingBottom: 16}}

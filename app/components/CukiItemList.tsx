@@ -17,18 +17,16 @@ export type CukiListProps<ItemT> = {
 
 const CukiList = (props?: PropsWithChildren<CukiListProps<any>>) => {
     return (
-        <SafeAreaView>
-            <DefaultFlatList
-                style={{...props?.style}}
-                keyExtractor={props?.keyExtractor}
-                data={props?.data}
-                renderItem={props?.renderItem}
-                onScroll={props?.onScroll}
-                onRefresh={props?.onRefresh}
-            >
-                {props?.children}
-            </DefaultFlatList>
-        </SafeAreaView>
+        <DefaultFlatList
+            style={{...props?.style}}
+            keyExtractor={props?.keyExtractor}
+            data={props?.data}
+            renderItem={props?.renderItem}
+            onScroll={props?.onScroll}
+            onRefresh={props?.onRefresh}
+        >
+            {props?.children}
+        </DefaultFlatList>
     )
 }
 

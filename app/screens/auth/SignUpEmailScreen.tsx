@@ -4,6 +4,7 @@ import CukiButton from "../../components/CukiButton";
 import CukiInput from "../../components/CukiInput";
 import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
+import {AuthService} from "../../domain/AuthService";
 
 const SignUpEmailScreen = ({navigation}) => {
     const [email, setEmail] = React.useState('')
@@ -34,8 +35,30 @@ const SignUpEmailScreen = ({navigation}) => {
                     type={email !== '' ? 'PRIMARY' : ''}
                     title={'다음'}
                     titleColor={'white'}
-                    onPress={() => {
-                        navigation.navigate('sign-up-code', {email: email})
+                    onPress={async () => {
+                        console.log('이메일 중복 검사 시작')
+                        const result: boolean | void =
+                            await AuthService
+                                .checkEmailDuplication(email)
+                                .then(result => result)
+                                .catch(error => {
+                                    console.error(error)
+                                    alert('문제가 발생했어요.')
+                                })
+
+                        if (result) {
+                            AuthService
+                                .requestVerificationCode(email)
+                                .then(result => {
+                                    if (result) {
+                                        navigation.navigate('sign-up-code', {email: email})
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error)
+                                    alert('문제가 발생했어요.')
+                                })
+                        }
                     }}
                     style={{
                         marginTop: 20,

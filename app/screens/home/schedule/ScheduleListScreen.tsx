@@ -18,10 +18,11 @@ const ScheduleListContainer = styled.SafeAreaView`
 
 const ScheduleListWrapper = styled.SafeAreaView`
   margin: 0 36px;
+  margin-bottom: 135px;
 `
 
 const arr: Array<string> = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 10; i++) {
     arr.push(i.toString());
 }
 
@@ -51,7 +52,7 @@ const ScheduleListScreen = ({navigation}) => {
             >
                 <CukiButton
                     onPress={() => {
-                        navigation.navigate('schedule-registration-stack')
+                        navigation.navigate('schedule-registration')
                     }}
                     type={'PRIMARY'}
                     style={{width: '100%'}}
@@ -69,9 +70,16 @@ const ScheduleListScreen = ({navigation}) => {
                     <CukiList
                         keyExtractor={item => item.toString()}
                         data={arr}
-                        renderItem={({item}) => <CukiCard/>}
+                        renderItem={
+                            ({item}) =>
+                                <CukiCard onPress={
+                                    () => {
+                                        navigation.navigate('schedule-info', {idx: 1})
+                                    }}
+                                />
+                        }
                         onScroll={(e) => {
-                            console.log(e.nativeEvent.contentOffset.y)
+                            // console.log(e.nativeEvent.contentOffset.y)
                             if (e.nativeEvent.contentOffset.y < -50) {
                                 LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                                 setToggleCommandBox(true)

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AuthContext, SignInParam, SignUpParam} from "./contexts/AuthenticationContext";
+import {AuthContext, SignInParam} from "./contexts/AuthenticationContext";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import LoadingScreen from "./screens/loading/Loading";
@@ -24,6 +24,12 @@ const App = ({navigation}) => {
                         isSignOut: false,
                         userToken: action.token
                     };
+                case 'SIGN_UP':
+                    return {
+                        ...prevState,
+                        isSignOut: true,
+                        isLoading: true
+                    }
                 case 'SIGN_OUT':
                     return {
                         ...prevState,
@@ -58,7 +64,7 @@ const App = ({navigation}) => {
                     type: 'SIGN_OUT'
                 })
             },
-            signUp: async (param: SignUpParam) => {
+            signUp: () => {
                 dispatch({
                     type: 'SIGN_UP',
                     token: 'dummy-auth-token'

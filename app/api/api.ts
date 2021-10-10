@@ -12,7 +12,7 @@ export class ApiResponse<T> {
     }
 }
 
-const BASE_URL = "https://cuki.io"
+const BASE_URL = "https://api.cuki.io"
 
 class Api {
     async get<T>(path: string): Promise<ApiResponse<T>> {
@@ -20,9 +20,13 @@ class Api {
         return axios.get(url)
     }
 
-    async post<T>(path: string): Promise<AxiosResponse> {
+    async post<T>(path: string, param: any): Promise<ApiResponse<T>> {
         const url = Api.buildUrl(path)
-        return axios.post<ApiResponse<T>>(url)
+        return new Promise((resolve: any, reject) => {
+            axios.post<AxiosResponse<ApiResponse<T>>>(url, param)
+                .then(result => resolve(result.data))
+                .catch(error => reject(error))
+        })
     }
 
     private static buildUrl(uri: string) {

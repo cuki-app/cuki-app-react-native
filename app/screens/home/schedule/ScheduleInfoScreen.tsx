@@ -1,12 +1,13 @@
 import React from "react";
 import {SafeAreaView, Text} from "react-native";
 
-const ScheduleTitleScreen = () => {
+const ScheduleInfoScreen = ({route}) => {
+    console.log(route.params)
     return (
         <SafeAreaView>
-            <Text>제목 입력화면</Text>
+            <Text>ㅇㅅㅇ?</Text>
         </SafeAreaView>
     )
 }
 
-export default ScheduleTitleScreen
+export default ScheduleInfoScreen

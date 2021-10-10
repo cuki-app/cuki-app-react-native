@@ -4,10 +4,12 @@ import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
 import CukiInput from "../../components/CukiInput";
 import CukiButton from "../../components/CukiButton";
-import {SignUpParam} from "../../contexts/AuthenticationContext";
+import {AuthContext, SignUpParam} from "../../contexts/AuthenticationContext";
+import {SignUpService} from "../../domain/UserService";
 
 const SignUpAuthCodeScreen = ({route}) => {
     const [authCode, setAuthCode] = React.useState('')
+    const {signUp} = React.useContext(AuthContext)
     return (
         <CukiContainer>
             <CukiBox>
@@ -39,7 +41,11 @@ const SignUpAuthCodeScreen = ({route}) => {
                             email: route.params.email,
                             magicCode: authCode
                         }
-                        console.log(param)
+                        SignUpService.requestSignUp(param)
+                            .then(res => {
+                                signUp()
+                            })
+                            .catch(err => alert('문제가 발생했어요.'))
                     }}
                     style={{
                         marginTop: 20,
