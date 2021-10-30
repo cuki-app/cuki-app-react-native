@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Text} from "react-native";
 import CukiContainer from "../../components/CukiContainer";
 import {AuthContext} from "../../contexts/AuthenticationContext";
-import {RestoreService} from "../../domain/AuthService";
+import {RestoreService} from "../../domain/SignUpService";
 
 const LoadingScreen = () => {
     const {restore} = React.useContext(AuthContext)

@@ -4,7 +4,7 @@ import CukiButton from "../../components/CukiButton";
 import CukiInput from "../../components/CukiInput";
 import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
-import {AuthService} from "../../domain/AuthService";
+import {SignUpService} from "../../domain/SignUpService";
 
 const SignUpEmailScreen = ({navigation}) => {
     const [email, setEmail] = React.useState('')
@@ -38,7 +38,7 @@ const SignUpEmailScreen = ({navigation}) => {
                     onPress={async () => {
                         console.log('이메일 중복 검사 시작')
                         const result: boolean | void =
-                            await AuthService
+                            await SignUpService
                                 .checkEmailDuplication(email)
                                 .then(result => result)
                                 .catch(error => {
@@ -47,7 +47,7 @@ const SignUpEmailScreen = ({navigation}) => {
                                 })
 
                         if (result) {
-                            AuthService
+                            SignUpService
                                 .requestVerificationCode(email)
                                 .then(result => {
                                     if (result) {

@@ -45,7 +45,11 @@ const HomeTab = ({navigation}) => {
                 options={{
                     tabBarIcon: (props: { focused: boolean, color: string, size: number }) => {
                         return <MaterialCommunityIcons name={"face"} color={props.color} size={props.size}/>
-                    }
+                    },
+                    headerStyle: {
+                        backgroundColor: "#FFFFFF",
+                    },
+                    headerTintColor: "#000000",
                 }}
             />
         </Tab.Navigator>

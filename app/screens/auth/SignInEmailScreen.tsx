@@ -5,6 +5,7 @@ import CukiInput from "../../components/CukiInput";
 import CukiHeader from "../../components/CukiHeader";
 import CukiParagraph from "../../components/CukiParagraph";
 import {defaultFontColor} from "../../components/ColorCode";
+import {AuthService} from "../../domain/AuthService";
 
 const SignInEmailScreen = ({navigation}) => {
     const [email, setEmail] = React.useState('')
@@ -35,7 +36,25 @@ const SignInEmailScreen = ({navigation}) => {
                     type={email !== '' ? 'PRIMARY' : ''}
                     title={'다음'}
                     titleColor={'white'}
-                    onPress={() => {
+                    onPress={async () => {
+                        /*if (email != null && email != '') {
+                            const isExistence = await AuthService
+                                .checkAccountExistence(email)
+                                .then(result => result)
+                                .catch(err => console.log(err))
+
+                            if (isExistence === true) {
+                                const result = await AuthService
+                                    .requestLoginVerificationCode(email)
+                                    .then(result => result)
+                                    .catch(err => console.log(err))
+
+                                console.log(`verification result: ${result}`)
+                                if (result) {
+                                    navigation.navigate('type-code', {email: email})
+                                }
+                            }
+                        }*/
                         navigation.navigate('type-code', {email: email})
                     }}
                     style={{

@@ -7,7 +7,7 @@ import CukiButton from "../../components/CukiButton";
 import {defaultFontColor} from "../../components/ColorCode";
 import {AuthContext, SignInParam} from "../../contexts/AuthenticationContext";
 
-const SignInAuthCodeScreen = ({route}) => {
+const SignInAuthCodeScreen = ({route, navigation}) => {
     const [authCode, setAuthCode] = React.useState('')
     const {signIn} = React.useContext(AuthContext)
     return (
@@ -37,18 +37,25 @@ const SignInAuthCodeScreen = ({route}) => {
                     title={'인증하기'}
                     titleColor={'white'}
                     onPress={() => {
-                        const param: SignInParam = {
+                        /*const param: SignInParam = {
                             email: route.params.email,
                             magicCode: authCode
                         }
                         console.debug(param)
-                        signIn(param)
+                        signIn(param)*/
+                        signIn({
+                            email: route.params.email,
+                            magicCode: 'magic'
+                        })
                     }}
                     style={{
                         marginTop: 20,
                     }}
                 />
                 <CukiParagraph
+                    onPress={() => {
+                        navigation.navigate('sign-up-email')
+                    }}
                     style={{
                         marginTop: 20,
                         fontSize: 16,
