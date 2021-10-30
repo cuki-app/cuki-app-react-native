@@ -4,6 +4,8 @@ import {ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, SafeAreaView} f
 
 const DefaultFlatList = styled.FlatList`
   width: 100%;
+  padding: 0 36px;
+  margin-bottom: 135px;
 `
 
 export type CukiListProps<ItemT> = {

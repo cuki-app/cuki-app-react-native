@@ -17,19 +17,13 @@ const ScheduleListContainer = styled.SafeAreaView`
 `
 
 const ScheduleListWrapper = styled.SafeAreaView`
+  margin: 0 36px;
+  margin-bottom: 135px;
 `
 
-type ScheduleItem = {
-    idx: number,
-    name: string,
-}
-
-const arr: Array<ScheduleItem> = [];
+const arr: Array<string> = [];
 for (let i = 0; i < 10; i++) {
-    arr.push({
-        idx: i,
-        name: i.toString()
-    });
+    arr.push(i.toString());
 }
 
 const ScheduleListScreen = ({navigation}) => {
@@ -72,20 +66,15 @@ const ScheduleListScreen = ({navigation}) => {
                 }}
             >
                 <ScheduleListWrapper>
-                    <CukiHeader
-                        fontSize={30}
-                        style={{
-                            marginLeft: 36
-                        }}
-                    >모든 일정</CukiHeader>
+                    <CukiHeader fontSize={30}>모든 일정</CukiHeader>
                     <CukiList
-                        keyExtractor={item => item.idx.toString()}
+                        keyExtractor={item => item.toString()}
                         data={arr}
                         renderItem={
                             ({item}) =>
                                 <CukiCard onPress={
                                     () => {
-                                        navigation.navigate('schedule-info', item)
+                                        navigation.navigate('schedule-info', {idx: 1})
                                     }}
                                 />
                         }
