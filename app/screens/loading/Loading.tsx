@@ -11,7 +11,10 @@ const LoadingScreen = () => {
         const bootstrapAsync = async () => {
             RestoreService
                 .restore()
-                .then(token => restore(token))
+                .then(token => {
+                    console.log(`restored token: ${token.accessToken}`)
+                    restore('test')
+                })
                 .catch(error => {
                     console.error(error)
                     restore(null)

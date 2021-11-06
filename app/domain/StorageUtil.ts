@@ -1,4 +1,4 @@
-import {AsyncStorage} from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export enum StorageKey {
     USER_TOKEN = 'USER_TOKEN'
@@ -29,8 +29,10 @@ class AsyncStorageUtil implements StorageUtil {
     setObject(key: StorageKey, payload: any): Promise<void> {
         return new Promise((resolve, reject) => {
             const data = JSON.stringify(payload)
+            console.log(`data to save: ${data}`)
             AsyncStorage.setItem(key, data, error => {
                 if (error) {
+                    console.log(error)
                     reject(error)
                 }
                 resolve()

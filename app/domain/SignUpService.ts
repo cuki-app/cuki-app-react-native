@@ -1,9 +1,10 @@
 import StorageUtil, {StorageKey} from "./StorageUtil";
 import api, {ApiResponse} from "../api/api";
+import {TokenResponse} from "./AuthService";
 
 export class RestoreService {
-    static async restore(): Promise<string> {
-        return StorageUtil.getString(StorageKey.USER_TOKEN)
+    static async restore(): Promise<TokenResponse> {
+        return StorageUtil.getObject(StorageKey.USER_TOKEN) as TokenResponse
     }
 }
 

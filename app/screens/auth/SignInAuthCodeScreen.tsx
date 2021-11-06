@@ -7,6 +7,7 @@ import CukiButton from "../../components/CukiButton";
 import {defaultFontColor} from "../../components/ColorCode";
 import {AuthContext} from "../../contexts/AuthenticationContext";
 import {AuthService} from "../../domain/AuthService";
+import StorageUtil, {StorageKey} from "../../domain/StorageUtil";
 
 const SignInAuthCodeScreen = ({route, navigation}) => {
     const [authCode, setAuthCode] = React.useState('')
@@ -40,6 +41,10 @@ const SignInAuthCodeScreen = ({route, navigation}) => {
                     onPress={async () => {
                         const result = await AuthService.login(route.params.email, authCode)
                         console.log(result)
+                        StorageUtil.setObject(
+                            StorageKey.USER_TOKEN,
+                            result
+                        )
                         signIn({
                             email: route.params.email,
                             magicCode: 'magic'
