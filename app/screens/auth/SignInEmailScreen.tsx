@@ -37,7 +37,7 @@ const SignInEmailScreen = ({navigation}) => {
                     title={'다음'}
                     titleColor={'white'}
                     onPress={async () => {
-                        /*if (email != null && email != '') {
+                        if (email != null && email != '') {
                             const isExistence = await AuthService
                                 .checkAccountExistence(email)
                                 .then(result => result)
@@ -54,7 +54,7 @@ const SignInEmailScreen = ({navigation}) => {
                                     navigation.navigate('type-code', {email: email})
                                 }
                             }
-                        }*/
+                        }
                         navigation.navigate('type-code', {email: email})
                     }}
                     style={{
