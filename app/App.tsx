@@ -5,6 +5,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import LoadingScreen from "./screens/loading/Loading";
 import HomeTab from "./screens/home/HomeNavigator";
 import AuthStack from "./screens/auth/AuthNavigator";
+import StorageUtil, {StorageKey} from "./domain/StorageUtil";
 
 const Stack = createStackNavigator()
 
@@ -15,14 +16,14 @@ const App = ({navigation}) => {
                 case 'RESTORE_TOKEN':
                     return {
                         ...prevState,
-                        userToken: action.token,
+                        refreshToken: action.token,
                         isLoading: false
                     };
                 case 'SIGN_IN':
                     return {
                         ...prevState,
                         isSignOut: false,
-                        userToken: action.token
+                        refreshToken: action.token
                     };
                 case 'SIGN_UP':
                     return {
@@ -35,14 +36,14 @@ const App = ({navigation}) => {
                         ...prevState,
                         isSignOut: true,
                         isLoading: false,
-                        userToken: null
+                        refreshToken: null
                     }
             }
         },
         {
             isLoading: true,
             isSignOut: false,
-            userToken: null
+            refreshToken: null
         }
     );
 
@@ -60,9 +61,9 @@ const App = ({navigation}) => {
                 })
             },
             signOut: () => {
-                dispatch({
-                    type: 'SIGN_OUT'
-                })
+                StorageUtil
+                    .setObject(StorageKey.USER_TOKEN, null)
+                    .then(result => dispatch({type: 'SIGN_OUT'}))
             },
             signUp: () => {
                 dispatch({
@@ -84,7 +85,7 @@ const App = ({navigation}) => {
                 >
                     {state.isLoading ? (
                         <Stack.Screen name={"Loading"} component={LoadingScreen}/>
-                    ) : state.userToken == null ? (
+                    ) : state.refreshToken == null ? (
                         <Stack.Screen
                             name={"SignIn"}
                             component={AuthStack}

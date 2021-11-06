@@ -12,8 +12,10 @@ const LoadingScreen = () => {
             RestoreService
                 .restore()
                 .then(token => {
-                    console.log(`restored token: ${token.accessToken}`)
-                    restore('test')
+                    if (token != null) {
+                        console.log(`restored token: ${token.refreshToken}`)
+                    }
+                    restore(token?.refreshToken)
                 })
                 .catch(error => {
                     console.error(error)
