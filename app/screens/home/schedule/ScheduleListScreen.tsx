@@ -5,6 +5,7 @@ import CukiButton from "../../../components/CukiButton";
 import CukiList from "../../../components/CukiItemList";
 import CukiCard from "../../../components/CukiCard";
 import CukiHeader from "../../../components/CukiHeader";
+import {Schedule, ScheduleListResponse, ScheduleService} from "../../../domain/ScheduleService";
 
 const ScheduleScreenContainer = styled.SafeAreaView`
   flex: 1;
@@ -19,24 +20,26 @@ const ScheduleListContainer = styled.SafeAreaView`
 const ScheduleListWrapper = styled.SafeAreaView`
 `
 
-type ScheduleItem = {
-    idx: number,
-    name: string,
-}
-
-const arr: Array<ScheduleItem> = [];
-for (let i = 0; i < 10; i++) {
-    arr.push({
-        idx: i,
-        name: i.toString()
-    });
-}
-
 const ScheduleListScreen = ({navigation}) => {
     const [toggleCommandBox, setToggleCommandBox] = React.useState(true)
+    const [schedules, setSchedules] = React.useState([])
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [hasNext, setHasNext] = React.useState(false);
+    const [currentPageNumber, setCurrentPageNumber] = React.useState(0);
+
+    const onFetched = (res: ScheduleListResponse, newList: Array<Schedule> = null) => {
+        setSchedules(newList || res.content)
+        setHasNext(res.hasNext)
+        setCurrentPageNumber(res.currentPageNumber)
+    }
 
     // component did mount
     React.useEffect(() => {
+        ScheduleService
+            .getSchedules()
+            .then(res => {
+                onFetched(res)
+            })
         const timer = setTimeout(() => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
             setToggleCommandBox(false)
@@ -79,14 +82,39 @@ const ScheduleListScreen = ({navigation}) => {
                         }}
                     >모든 일정</CukiHeader>
                     <CukiList
-                        keyExtractor={item => item.idx.toString()}
-                        data={arr}
+                        keyExtractor={schedule => schedule.scheduleId.toString()}
+                        data={schedules}
+                        refreshing={refreshing}
+                        onEndReached={() => {
+                            if (hasNext) {
+                                ScheduleService
+                                    .getSchedules(currentPageNumber + 1)
+                                    .then(res => {
+                                        onFetched(res, [...schedules, ...res.content])
+                                    })
+                            }
+                        }}
+                        onEndReachedThreshold={1}
+                        onRefresh={() => {
+                            setRefreshing(true)
+                            ScheduleService
+                                .getSchedules()
+                                .then(res => {
+                                    onFetched(res)
+                                })
+                                .finally(() => {
+                                    setRefreshing(false)
+                                })
+                        }}
                         renderItem={
                             ({item}) =>
-                                <CukiCard onPress={
-                                    () => {
-                                        navigation.navigate('schedule-info', item)
-                                    }}
+                                <CukiCard
+                                    content={item}
+                                    onPress={
+                                        () => {
+                                            navigation.navigate('schedule-info', item)
+                                        }
+                                    }
                                 />
                         }
                         onScroll={(e) => {

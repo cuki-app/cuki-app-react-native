@@ -5,6 +5,7 @@ import {mainColor} from "../../../components/ColorCode";
 import {CukiHiddenInput} from "../../../components/CukiInput";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import CukiButton from "../../../components/CukiButton";
+import {ScheduleService} from "../../../domain/ScheduleService";
 
 const inputStyle = {
     fontSize: 32,
@@ -60,7 +61,7 @@ const BottomSheetItem = (props?: PropsWithChildren<DefaultProps>) => {
 
 type Mode = 'date' | 'time' | undefined
 
-const ScheduleRegistrationScreen = () => {
+const ScheduleRegistrationScreen = ({navigation}) => {
 
     const [date, setDate] = React.useState(new Date());
     const [mode, setMode] = React.useState<Mode>('date');
@@ -101,6 +102,8 @@ const ScheduleRegistrationScreen = () => {
     const [countOfMembersComplete, setCountOfMembersComplete] = React.useState(false)
     const [location, setLocation] = React.useState('')
     const [locationComplete, setLocationComplete] = React.useState(false)
+    const [detail, setDetail] = React.useState('');
+    const [detailComplete, setDetailComplete] = React.useState(false);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -165,12 +168,44 @@ const ScheduleRegistrationScreen = () => {
                         onChangeText={setLocation}
                         onEndEditing={() => setLocationComplete(true)}
                     />}
-                    {titleComplete && startDateComplete && endDateComplete && countOfMembersComplete && locationComplete &&
+                    {locationComplete &&
+                    <CukiHiddenInput
+                        autoFocus={true}
+                        multiline={false}
+                        placeholder={"자세히 입력해주세요."}
+                        style={inputStyle}
+                        onChangeText={setDetail}
+                        onEndEditing={() => setDetailComplete(true)}
+                    />}
+                    {titleComplete && startDateComplete && endDateComplete && countOfMembersComplete && locationComplete && detailComplete &&
                     <View style={{
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <CukiButton type={'PRIMARY'}>등록하기</CukiButton>
+                        <CukiButton
+                            type={'PRIMARY'}
+                            onPress={() => {
+                                ScheduleService
+                                    .registerSchedule(
+                                        title,
+                                        detail,
+                                        location,
+                                        countOfMembers,
+                                        startDate,
+                                        endDate
+                                    )
+                                    .then(res => {
+                                        console.log(res)
+                                    })
+                                    .catch(err => {
+                                        console.error(err)
+                                        alert('문제가 발생했어요!')
+                                    })
+                                    .finally(() => {
+                                        navigation.goBack()
+                                    })
+                            }}
+                        >등록하기</CukiButton>
                     </View>
                     }
                 </RegistrationContainer>

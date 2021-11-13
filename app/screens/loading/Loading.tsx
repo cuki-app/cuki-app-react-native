@@ -14,6 +14,7 @@ const LoadingScreen = () => {
                 .then(token => {
                     if (token != null) {
                         console.log(`restored token: ${token.refreshToken}`)
+                        console.log(`access token: ${token.accessToken}`)
                     }
                     restore(token?.refreshToken)
                 })

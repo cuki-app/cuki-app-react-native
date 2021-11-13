@@ -7,6 +7,7 @@ import CukiParagraph from "../../../components/CukiParagraph";
 import CukiButton from "../../../components/CukiButton";
 import CukiList from "../../../components/CukiItemList";
 import {CukiHiddenInput} from "../../../components/CukiInput";
+import {Schedule, ScheduleService} from "../../../domain/ScheduleService";
 
 const ScheduleInfoContainer = styled.SafeAreaView`
   flex: 1;
@@ -43,7 +44,16 @@ const ScheduleCommentItem = () => {
 }
 
 const ScheduleInfoScreen = ({route}) => {
-    console.log(route.params)
+    const [schedule, setSchedule] = useState({} as Schedule);
+
+    React.useEffect(() => {
+        ScheduleService
+            .getSchedule(route.params.scheduleId)
+            .then(res => {
+                console.log(res)
+                setSchedule(res)
+            })
+    }, [])
 
     const [signedUp, setSignedUp] = useState(false)
     const [visibleSignUp, setVisibleSignUp] = useState(false)
@@ -53,17 +63,14 @@ const ScheduleInfoScreen = ({route}) => {
         <ScheduleInfoContainer>
             <KeyboardAvoidingView>
                 <CukiCell>
-                    <CukiHeader fontSize={24} fontColor={'black'}>연남동 카페투어</CukiHeader>
-                    <CukiParagraph style={{marginBottom: 5}}>📍연남동 에플린크</CukiParagraph>
-                    <CukiParagraph style={{marginBottom: 5}}>📅 21.08.02</CukiParagraph>
-                    <CukiParagraph style={{marginBottom: 5}}>🎫 2 / 3</CukiParagraph>
+                    <CukiHeader fontSize={24} fontColor={'black'}>{route.params.title}</CukiHeader>
+                    <CukiParagraph style={{marginBottom: 5}}>📍{route.params.place}</CukiParagraph>
+                    <CukiParagraph style={{marginBottom: 5}}>📅 {route.params.startDateTime}</CukiParagraph>
+                    <CukiParagraph style={{marginBottom: 5}}>🎫 {`${schedule.currentNumberOfPeople} / ${schedule.fixedNumberOfPeople}`}</CukiParagraph>
                     <CukiParagraph style={{marginTop: 15, marginBottom: 15}}>
-                        연남동 카페맛집 투어하면서,
-                        서로 인스타에 올라갈 만한 예쁜 사진 같이
-                        찍어요! 대학생 분들이었음 좋겠습니다!
-                        같이 재밌게 놀아요~
+                        {`${schedule.details}`}
                     </CukiParagraph>
-                    <CukiParagraph style={{marginBottom: 5}}>신청자 🙋 4명</CukiParagraph>
+                    <CukiParagraph style={{marginBottom: 5}}>신청자 🙋 {schedule.numberOfPeopleWaiting}명</CukiParagraph>
                 </CukiCell>
                 {visibleSignUp &&
                 <CukiCell>

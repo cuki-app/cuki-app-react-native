@@ -1,9 +1,9 @@
 import api, {ApiResponse} from "../api/api";
 
 export type TokenResponse = {
-    "accessToken": string,
-    "accessTokenExpiresIn": number,
-    "refreshToken": string
+    accessToken: string,
+    accessTokenExpiresIn: number,
+    refreshToken: string
 }
 
 export class AuthService {
@@ -34,7 +34,10 @@ export class AuthService {
                     "email": email,
                     "verificationCode": verificationCode
                 })
-                    .then(res => resolve(res.result))
+                    .then(res => {
+                        api.setCertificationHeader(res.result?.accessToken)
+                        resolve(res.result)
+                    })
                     .catch(err => reject(err))
             }
         })

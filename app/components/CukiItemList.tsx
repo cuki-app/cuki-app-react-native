@@ -10,7 +10,10 @@ const DefaultFlatList = styled.FlatList`
 
 export type CukiListProps<ItemT> = {
     style?: any,
-    onRefresh?: (() => void) | null,
+    onRefresh?: () => void | null,
+    refreshing: boolean,
+    onEndReached?: () => void
+    onEndReachedThreshold?: number,
     keyExtractor?: (item: ItemT, index: number) => string,
     data: ReadonlyArray<ItemT> | null | undefined,
     onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
@@ -23,9 +26,12 @@ const CukiList = (props?: PropsWithChildren<CukiListProps<any>>) => {
             style={{...props?.style}}
             keyExtractor={props?.keyExtractor}
             data={props?.data}
+            onEndReached={props?.onEndReached}
+            onEndReachedThreshold={props?.onEndReachedThreshold}
             renderItem={props?.renderItem}
             onScroll={props?.onScroll}
             onRefresh={props?.onRefresh}
+            refreshing={props?.refreshing}
         >
             {props?.children}
         </DefaultFlatList>
